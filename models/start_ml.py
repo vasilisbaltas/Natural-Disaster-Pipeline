@@ -68,6 +68,8 @@ def tokenize(text):
 
 
 
+###################################        Pipeline        ############################################
+
 text_transformer = Pipeline([
     ('messagetransformer', MessageTransformer(tokenize)),
 ])
@@ -78,17 +80,9 @@ preprocessor = ColumnTransformer([
     ('text', text_transformer, [0]),
     ('genre', genre_transformer, [1])
 ])
-pipeline_2 = Pipeline([
+pipeline = Pipeline([
     ('preprocess', preprocessor),
     ('clf', RandomForestClassifier(random_state=33))
-])
-
-#####################################################################################
-
-pipeline = Pipeline([
-     ('vect', CountVectorizer(tokenizer=tokenize)),
-     ('tfidf', TfidfTransformer()),
-     ('clf', RandomForestClassifier(random_state=33))
 ])
 
 
@@ -96,8 +90,9 @@ pipeline = Pipeline([
 
 X_train, X_test, y_train, y_test = train_test_split(X, Y, random_state=33)
 
-pipeline_2.fit(X_train, y_train)
+
+pipeline.fit(X_train, y_train)
 print('DONE TRAINING')
-preds = pipeline_2.predict(X_test)
+preds = pipeline.predict(X_test)
 print(preds)
 
