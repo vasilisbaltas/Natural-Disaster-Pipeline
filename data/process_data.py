@@ -55,7 +55,7 @@ def save_data(df, database_filename):
     :return:                       None
     """
     engine = create_engine('sqlite:///'+database_filename)
-    df.to_sql('Emergency_Messages', engine, index=False)
+    df.to_sql('Emergency_Messages', engine, index=False, if_exists='replace')
 
 
 def main():
